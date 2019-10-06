@@ -1,8 +1,16 @@
 package com.example.accessingdatamysql;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +74,33 @@ public class MainController {
 	public @ResponseBody Iterable<Voting> getAllVotings() {
 		// This returns a JSON or XML with the votings
 		return votingRepository.findAll();
+	}
+
+	@GetMapping(path="/vote/getAll")
+	public @ResponseBody Iterable<Vote> getAllVotes() {
+		// This returns a JSON or XML with the votings
+		return voteRepository.findAll();
+	}
+
+	@GetMapping(path="/vote/getTotalVotesByVoting")
+	public @ResponseBody List<Map<String, String>> getTotalVotesByVoting() {
+		// This returns a JSON or XML with the votings
+		
+		List<Object[]> totalVotesByVoting = voteRepository.getTotalVotesByVoting();
+
+		/*System.out.println("teste1");
+		System.out.println(totalVotesByVoting);*/
+
+		return totalVotesByVoting.stream()
+                          .map(arr->{
+                              Map<String,String> map = new HashMap<>();  
+                              map.put("voting_id", String.valueOf(arr[0]));
+                              map.put("voting_name", (String) arr[1]);
+                              map.put("vote_description", (String) arr[2]);
+                              map.put("amount", String.valueOf(arr[3]));
+                              return map; 
+                            })
+                         .collect(Collectors.toList());
 	}
 
 	@PostMapping(path="/vote/add")
