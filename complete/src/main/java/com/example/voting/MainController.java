@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql;
+package com.example.voting;
 
 import java.util.HashMap;
 import java.util.List;

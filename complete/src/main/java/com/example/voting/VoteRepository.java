@@ -1,11 +1,11 @@
-package com.example.accessingdatamysql;
+package com.example.voting;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-import com.example.accessingdatamysql.Vote;
+import com.example.voting.Vote;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called voteRepository
 // CRUD refers Create, Read, Update, Delete
